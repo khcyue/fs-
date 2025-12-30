@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>期現交易計算器Pro</title>
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --tab-bg: #f8f9fa;
+            --border-color: #e0e0e0;
+            --primary-blue: #0056b3;
+            --text-main: #333333;
+            --red-highlight: #d32f2f;
+            --yellow-bg: #ffff00;
+            --light-red-bg: #ffebee;
+            --light-green-bg: #e8f5e9;
+        }
+
+        * { box-sizing: border-box; }
+
+        body { 
+            font-family: -apple-system, "SF Pro Text", "Helvetica Neue", sans-serif; 
+            background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; 
+        }
+
+        .header { 
+            background: #ffffff; padding: 15px; text-align: center; 
+            font-size: 1.25rem; font-weight: bold; border-bottom: 2px solid var(--border-color);
+        }
+
+        .tabs { 
+            display: flex; overflow-x: auto; background: var(--tab-bg); 
+            position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--border-color);
+        }
+        .tab { 
+            flex: 1; min-width: 90px; padding: 15px 5px; text-align: center; 
+            color: #666; cursor: pointer; border-bottom: 4px solid transparent; 
+            font-size: 0.95rem; font-weight: bold; white-space: nowrap;
+        }
+        .tab.active { color: var(--primary-blue); border-bottom-color: var(--primary-blue); background: #fff; }
+
+        .container { padding: 15px; max-width: 600px; margin: auto; }
+        .panel { display: none; }
+        .panel.active { display: block; }
+
+        .input-card { 
+            background: #fff; border: 1px solid var(--border-color); 
+            border-radius: 12px; padding: 20px; margin-bottom: 20px; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .field { display: flex; flex-direction: column; }
+        
+        label { font-size: 0.9rem; color: #000; margin-bottom: 6px; font-weight: bold; }
+        
+        input { 
+            width: 100%;
+            padding: 12px; border: 1px solid #ccc; border-radius: 8px; 
+            font-size: 1.1rem; outline: none; transition: border 0.2s;
+        }
+        input:focus { border-color: var(--primary-blue); box-shadow: 0 0 0 2px rgba(0,86,179,0.1); }
+
+        button { 
+            width: 100%; padding: 15px; background: var(--primary-blue); color: white; 
+            border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; 
+            cursor: pointer; margin-top: 15px;
+        }
+
+        /* 表格與分割樣式 */
+        .result-wrapper { display: flex; flex-direction: column; gap: 25px; margin-top: 15px; }
+        table { width: 100%; border-collapse: collapse; background: #fff; }
+        th, td { border: 1px solid var(--border-color); padding: 10px 4px; text-align: center; font-size: 0.95rem; }
+        th { background-color: #f8f9fa; font-weight: bold; }
+
+        /* 視覺標記 */
+        .text-red { color: var(--red-highlight) !important; font-weight: bold; }
+        .bg-yellow { background-color: var(--yellow-bg) !important; }
+        .bg-light-red { background-color: var(--light-red-bg) !important; }
+        .bg-light-green { background-color: var(--light-green-bg) !important; }
+        
+        /* 核心參數強調 */
+        .highlight-params { 
+            text-align: center; font-size: 1.4rem; font-weight: bold; 
+            color: #000; margin-bottom: 15px; padding: 12px; 
+            background: #f9f9f9; border: 2px dashed #bbb; border-radius: 10px;
+        }
+        .table-title { font-weight: bold; margin-bottom: 8px; padding-left: 5px; border-left: 4px solid var(--primary-blue); }
+    </style>
+</head>
+<body>
+
+<div class="header">期現交易計算器Pro</div>
+
+<div class="tabs">
+    <div class="tab active" onclick="switchTab(0)">期CDP</div>
+    <div class="tab" onclick="switchTab(1)">現CDP</div>
+    <div class="tab" onclick="switchTab(2)">多回檔</div>
+    <div class="tab" onclick="switchTab(3)">空反彈</div>
+    <div class="tab" onclick="switchTab(4)">黃金撐壓</div>
+</div>
+
+<div class="container">
+    <div id="panel0" class="panel active">
+        <div class="input-card">
+            <div class="grid">
+                <div class="field"><label>開盤 (O)</label><input type="number" id="o0"></div>
+                <div class="field"><label>最高 (H)</label><input type="number" id="h0"></div>
+                <div class="field"><label>最低 (L)</label><input type="number" id="l0"></div>
+                <div class="field"><label>收盤 (C)</label><input type="number" id="c0"></div>
+            </div>
+            <button onclick="calcCDP(0)">計算期CDP</button>
+        </div>
+        <div id="res0"></div>
+    </div>
+
+    <div id="panel1" class="panel">
+        <div class="input-card">
+            <div class="grid">
+                <div class="field"><label>開盤 (O)</label><input type="number" id="o1"></div>
+                <div class="field"><label>最高 (H)</label><input type="number" id="h1"></div>
+                <div class="field"><label>最低 (L)</label><input type="number" id="l1"></div>
+                <div class="field"><label>收盤 (C)</label><input type="number" id="c1"></div>
+            </div>
+            <button onclick="calcCDP(1)">計算現CDP</button>
+        </div>
+        <div id="res1"></div>
+    </div>
+
+    <div id="panel2" class="panel">
+        <div class="input-card">
+            <div class="grid">
+                <div class="field"><label>最高 (H)</label><input type="number" id="h2"></div>
+                <div class="field"><label>最低 (L)</label><input type="number" id="l2"></div>
+            </div>
+            <button onclick="calcRetrace()">計算多回檔</button>
+        </div>
+        <div id="res2"></div>
+    </div>
+
+    <div id="panel3" class="panel">
+        <div class="input-card">
+            <div class="grid">
+                <div class="field"><label>最高 (H)</label><input type="number" id="h3"></div>
+                <div class="field"><label>最低 (L)</label><input type="number" id="l3"></div>
+            </div>
+            <button onclick="calcRebound()">計算空反彈</button>
+        </div>
+        <div id="res3"></div>
+    </div>
+
+    <div id="panel4" class="panel">
+        <div class="input-card">
+            <div class="grid">
+                <div class="field"><label>最高 (H)</label><input type="number" id="h4"></div>
+                <div class="field"><label>最低 (L)</label><input type="number" id="l4"></div>
+                <div class="field" style="grid-column: span 2;"><label>收盤 (C)</label><input type="number" id="c4"></div>
+            </div>
+            <button onclick="calcGolden()">計算黃金撐壓數據</button>
+        </div>
+        <div id="res4"></div>
+    </div>
+</div>
+
+<script>
+    function switchTab(idx) {
+        document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', i === idx));
+        document.querySelectorAll('.panel').forEach((p, i) => p.classList.toggle('active', i === idx));
+    }
+
+    const rnd = (v) => Math.round(v);
+
+    function calcCDP(idx) {
+        const o = parseFloat(document.getElementById('o'+idx).value) || 0;
+        const h = parseFloat(document.getElementById('h'+idx).value) || 0;
+        const l = parseFloat(document.getElementById('l'+idx).value) || 0;
+        const c = parseFloat(document.getElementById('c'+idx).value) || 0;
+        const rg = h - l, cdp = (2*c + h + l)/4, mHalf = (h+l)*0.5;
+
+        const rows = [
+            {n:"AH", v:cdp+rg}, {n:"NH", v:2*cdp-l}, {n:"CDP", v:cdp},
+            {n:"NL", v:2*cdp-h}, {n:"AL", v:cdp-rg}, {n:"1/2M", v:mHalf, isRed:true}
+        ];
+
+        let html = `<table><tr><th>指標</th><th>數值</th><th>C差距</th></tr>`;
+        rows.forEach(r => {
+            let cls = r.isRed ? 'class="text-red"' : '';
+            html += `<tr><td ${cls}>${r.n}</td><td ${cls}>${rnd(r.v)}</td><td>${rnd(r.v-c)}</td></tr>`;
+        });
+        html += `<tr><td>區間</td><td>${rnd(rg)}</td><td>-</td></tr>`;
+        html += `<tr><td>多空</td><td>${rnd((h+l+c)/3)}</td><td>-</td></tr>`;
+        html += `<tr><td>M值</td><td>${rnd(Math.sqrt(o*c))}</td><td>-</td></tr></table>`;
+        document.getElementById('res'+idx).innerHTML = html;
+    }
+
+    function calcRetrace() {
+        const h = parseFloat(document.getElementById('h2').value) || 0;
+        const l = parseFloat(document.getElementById('l2').value) || 0;
+        const rg = h - l;
+        const ratios = [0.236, 0.25, 0.382, 0.5, 0.618, 0.75, 0.764];
+        const reds = [0.382, 0.5, 0.618, 0.764];
+        
+        let html = `<div class="highlight-params">回檔基準 (L - H) = ${rnd(l - h)}</div>`;
+        html += `<table><tr><th>比例</th><th>回檔價位</th></tr>`;
+        ratios.forEach(r => {
+            let cls = reds.includes(r) ? 'class="text-red"' : '';
+            html += `<tr><td ${cls}>${r}</td><td ${cls}>${rnd(h - rg*r)}</td></tr>`;
+        });
+        document.getElementById('res2').innerHTML = html + `</table>`;
+    }
+
+    function calcRebound() {
+        const h = parseFloat(document.getElementById('h3').value) || 0;
+        const l = parseFloat(document.getElementById('l3').value) || 0;
+        const rg = h - l;
+        const ratios = [0.236, 0.25, 0.382, 0.5, 0.618, 0.75, 0.764];
+        const reds = [0.382, 0.5, 0.618, 0.764];
+
+        let html = `<div class="highlight-params">反彈基準 (H - L) = ${rnd(h - l)}</div>`;
+        html += `<table><tr><th>比例</th><th>反彈價位</th></tr>`;
+        ratios.forEach(r => {
+            let cls = reds.includes(r) ? 'class="text-red"' : '';
+            html += `<tr><td ${cls}>${r}</td><td ${cls}>${rnd(l + rg*r)}</td></tr>`;
+        });
+        document.getElementById('res3').innerHTML = html + `</table>`;
+    }
+
+    function calcGolden() {
+        const h = parseFloat(document.getElementById('h4').value) || 0;
+        const l = parseFloat(document.getElementById('l4').value) || 0;
+        const c = parseFloat(document.getElementById('c4').value) || 0;
+        const x = h - l, m = (h + l) * 0.5;
+
+        const upP = [3, 2.809, 2.764, 2.618, 2.5, 2.382, 2.236, 2.191, 2, 1.809, 1.764, 1.618, 1.5, 1.382, 1.236, 1.191, 1, 0.809, 0.764, 0.618, 0.5, 0.382, 0.236, 0.191, 0];
+        const dnP = [0, -0.191, -0.236, -0.382, -0.5, -0.618, -0.764, -0.809, -1, -1.191, -1.236, -1.382, -1.5, -1.618, -1.764, -1.809, -2, -2.191, -2.236, -2.382, -2.5, -2.618, -2.764, -2.809, -3];
+        
+        const highlights = [0.382, 0.618, 1, 1.382, 1.618, 2, 2.382, 2.618, 3];
+
+        let html = `<div class="highlight-params">波動 X = ${rnd(x)} &nbsp; | &nbsp; 中價 M = ${rnd(m)}</div>`;
+        html += `<div class="result-wrapper">`;
+
+        // 上漲表格
+        html += `<div><div class="table-title">上漲位階佈局</div><table><tr><th>參數</th><th>位階數值</th><th>C差距</th></tr>`;
+        upP.forEach(p => {
+            const val = m + x * p;
+            const gap = val - c;
+            const cls = p === 0 ? 'bg-yellow' : (highlights.includes(p) ? 'bg-light-red' : '');
+            html += `<tr class="${cls}"><td>${p}</td><td>${rnd(val)}</td><td>${rnd(gap)}</td></tr>`;
+        });
+        html += `</table></div>`;
+
+        // 下跌表格
+        html += `<div><div class="table-title">下跌位階佈局</div><table><tr><th>參數</th><th>位階數值</th><th>C差距</th></tr>`;
+        dnP.forEach(p => {
+            const val = m + x * p;
+            const gap = val - c;
+            const cls = p === 0 ? 'bg-yellow' : (highlights.includes(Math.abs(p)) ? 'bg-light-green' : '');
+            html += `<tr class="${cls}"><td>${p}</td><td>${rnd(val)}</td><td>${rnd(gap)}</td></tr>`;
+        });
+        html += `</table></div></div>`;
+
+        document.getElementById('res4').innerHTML = html;
+    }
+</script>
+</body>
+</html>

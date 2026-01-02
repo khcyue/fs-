@@ -3,16 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>期現交易計算器Pro</title>
+    <title>期現交易計算系統Pro</title>
     <style>
         :root {
             --bg-color: #ffffff;
             --tab-bg: #f8f9fa;
             --border-color: #e0e0e0;
             --primary-blue: #0056b3;
-            --text-main: #333333;
+            --text-main: #000000;
             --red-highlight: #d32f2f;
-            --yellow-bg: #ffff00;
             --light-red-bg: #ffebee;
             --light-green-bg: #e8f5e9;
         }
@@ -55,11 +54,10 @@
         label { font-size: 0.9rem; color: #000; margin-bottom: 6px; font-weight: bold; }
         
         input { 
-            width: 100%;
-            padding: 12px; border: 1px solid #ccc; border-radius: 8px; 
+            width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; 
             font-size: 1.1rem; outline: none; transition: border 0.2s;
         }
-        input:focus { border-color: var(--primary-blue); box-shadow: 0 0 0 2px rgba(0,86,179,0.1); }
+        input:focus { border-color: var(--primary-blue); }
 
         button { 
             width: 100%; padding: 15px; background: var(--primary-blue); color: white; 
@@ -67,30 +65,27 @@
             cursor: pointer; margin-top: 15px;
         }
 
-        /* 表格與分割樣式 */
         .result-wrapper { display: flex; flex-direction: column; gap: 25px; margin-top: 15px; }
-        table { width: 100%; border-collapse: collapse; background: #fff; }
-        th, td { border: 1px solid var(--border-color); padding: 10px 4px; text-align: center; font-size: 0.95rem; }
-        th { background-color: #f8f9fa; font-weight: bold; }
+        table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--border-color); }
+        th, td { border: 1px solid var(--border-color); padding: 10px 2px; text-align: center; font-size: 0.9rem; }
+        th { background-color: #f1f3f5; font-weight: bold; }
 
-        /* 視覺標記 */
         .text-red { color: var(--red-highlight) !important; font-weight: bold; }
-        .bg-yellow { background-color: var(--yellow-bg) !important; }
         .bg-light-red { background-color: var(--light-red-bg) !important; }
         .bg-light-green { background-color: var(--light-green-bg) !important; }
         
-        /* 核心參數強調 */
+        /* 修改這裡：將字體調小至 1.2rem (稍大的粗體) */
         .highlight-params { 
-            text-align: center; font-size: 1.4rem; font-weight: bold; 
+            text-align: center; font-size: 1.2rem; font-weight: bold; 
             color: #000; margin-bottom: 15px; padding: 12px; 
-            background: #f9f9f9; border: 2px dashed #bbb; border-radius: 10px;
+            background: #fdfdfd; border: 1px dashed #ccc; border-radius: 10px;
         }
-        .table-title { font-weight: bold; margin-bottom: 8px; padding-left: 5px; border-left: 4px solid var(--primary-blue); }
+        .table-title { font-weight: bold; font-size: 1rem; margin-bottom: 8px; padding-left: 10px; border-left: 5px solid var(--primary-blue); }
     </style>
 </head>
 <body>
 
-<div class="header">期現交易計算器Pro</div>
+<div class="header">期現交易計算系統Pro</div>
 
 <div class="tabs">
     <div class="tab active" onclick="switchTab(0)">期CDP</div>
@@ -109,7 +104,7 @@
                 <div class="field"><label>最低 (L)</label><input type="number" id="l0"></div>
                 <div class="field"><label>收盤 (C)</label><input type="number" id="c0"></div>
             </div>
-            <button onclick="calcCDP(0)">計算期CDP</button>
+            <button onclick="calcCDP(0)">計算期CDP數據</button>
         </div>
         <div id="res0"></div>
     </div>
@@ -122,7 +117,7 @@
                 <div class="field"><label>最低 (L)</label><input type="number" id="l1"></div>
                 <div class="field"><label>收盤 (C)</label><input type="number" id="c1"></div>
             </div>
-            <button onclick="calcCDP(1)">計算現CDP</button>
+            <button onclick="calcCDP(1)">計算現CDP數據</button>
         </div>
         <div id="res1"></div>
     </div>
@@ -133,7 +128,7 @@
                 <div class="field"><label>最高 (H)</label><input type="number" id="h2"></div>
                 <div class="field"><label>最低 (L)</label><input type="number" id="l2"></div>
             </div>
-            <button onclick="calcRetrace()">計算多回檔</button>
+            <button onclick="calcRetrace()">計算多回檔數據</button>
         </div>
         <div id="res2"></div>
     </div>
@@ -144,7 +139,7 @@
                 <div class="field"><label>最高 (H)</label><input type="number" id="h3"></div>
                 <div class="field"><label>最低 (L)</label><input type="number" id="l3"></div>
             </div>
-            <button onclick="calcRebound()">計算空反彈</button>
+            <button onclick="calcRebound()">計算空反彈數據</button>
         </div>
         <div id="res3"></div>
     </div>
@@ -199,9 +194,7 @@
         const rg = h - l;
         const ratios = [0.236, 0.25, 0.382, 0.5, 0.618, 0.75, 0.764];
         const reds = [0.382, 0.5, 0.618, 0.764];
-        
-        let html = `<div class="highlight-params">回檔基準 (L - H) = ${rnd(l - h)}</div>`;
-        html += `<table><tr><th>比例</th><th>回檔價位</th></tr>`;
+        let html = `<div class="highlight-params">回檔 (L-H) = ${rnd(l-h)}</div><table><tr><th>比例</th><th>回檔價位</th></tr>`;
         ratios.forEach(r => {
             let cls = reds.includes(r) ? 'class="text-red"' : '';
             html += `<tr><td ${cls}>${r}</td><td ${cls}>${rnd(h - rg*r)}</td></tr>`;
@@ -215,9 +208,7 @@
         const rg = h - l;
         const ratios = [0.236, 0.25, 0.382, 0.5, 0.618, 0.75, 0.764];
         const reds = [0.382, 0.5, 0.618, 0.764];
-
-        let html = `<div class="highlight-params">反彈基準 (H - L) = ${rnd(h - l)}</div>`;
-        html += `<table><tr><th>比例</th><th>反彈價位</th></tr>`;
+        let html = `<div class="highlight-params">反彈 (H-L) = ${rnd(h-l)}</div><table><tr><th>比例</th><th>反彈價位</th></tr>`;
         ratios.forEach(r => {
             let cls = reds.includes(r) ? 'class="text-red"' : '';
             html += `<tr><td ${cls}>${r}</td><td ${cls}>${rnd(l + rg*r)}</td></tr>`;
@@ -229,33 +220,31 @@
         const h = parseFloat(document.getElementById('h4').value) || 0;
         const l = parseFloat(document.getElementById('l4').value) || 0;
         const c = parseFloat(document.getElementById('c4').value) || 0;
-        const x = h - l, m = (h + l) * 0.5;
+        const x = h - l;
+        const m = (h + l) / 2;
 
-        const upP = [3, 2.809, 2.764, 2.618, 2.5, 2.382, 2.236, 2.191, 2, 1.809, 1.764, 1.618, 1.5, 1.382, 1.236, 1.191, 1, 0.809, 0.764, 0.618, 0.5, 0.382, 0.236, 0.191, 0];
-        const dnP = [0, -0.191, -0.236, -0.382, -0.5, -0.618, -0.764, -0.809, -1, -1.191, -1.236, -1.382, -1.5, -1.618, -1.764, -1.809, -2, -2.191, -2.236, -2.382, -2.5, -2.618, -2.764, -2.809, -3];
-        
-        const highlights = [0.382, 0.618, 1, 1.382, 1.618, 2, 2.382, 2.618, 3];
+        const params = [0.13, 0.21, 0.34, 0.55, 0.89, 1.13, 1.21, 1.34, 1.55, 1.89, 2.13, 2.21, 2.34, 2.55, 2.89];
 
         let html = `<div class="highlight-params">波動 X = ${rnd(x)} &nbsp; | &nbsp; 中價 M = ${rnd(m)}</div>`;
         html += `<div class="result-wrapper">`;
 
-        // 上漲表格
-        html += `<div><div class="table-title">上漲位階佈局</div><table><tr><th>參數</th><th>位階數值</th><th>C差距</th></tr>`;
-        upP.forEach(p => {
-            const val = m + x * p;
+        html += `<div><div class="table-title">上漲佈局 (M + 參數*X)</div>`;
+        html += `<table><tr><th>參數</th><th>數值</th><th>C差距</th><th>C差距%</th></tr>`;
+        params.forEach(p => {
+            const val = m + p * x;
             const gap = val - c;
-            const cls = p === 0 ? 'bg-yellow' : (highlights.includes(p) ? 'bg-light-red' : '');
-            html += `<tr class="${cls}"><td>${p}</td><td>${rnd(val)}</td><td>${rnd(gap)}</td></tr>`;
+            const per = c !== 0 ? (gap / c * 100).toFixed(2) + '%' : '0%';
+            html += `<tr class="bg-light-red"><td>${p}</td><td>${rnd(val)}</td><td>${rnd(gap)}</td><td>${per}</td></tr>`;
         });
         html += `</table></div>`;
 
-        // 下跌表格
-        html += `<div><div class="table-title">下跌位階佈局</div><table><tr><th>參數</th><th>位階數值</th><th>C差距</th></tr>`;
-        dnP.forEach(p => {
-            const val = m + x * p;
+        html += `<div><div class="table-title">下跌佈局 (M - 參數*X)</div>`;
+        html += `<table><tr><th>參數</th><th>數值</th><th>C差距</th><th>C差距%</th></tr>`;
+        params.forEach(p => {
+            const val = m - p * x;
             const gap = val - c;
-            const cls = p === 0 ? 'bg-yellow' : (highlights.includes(Math.abs(p)) ? 'bg-light-green' : '');
-            html += `<tr class="${cls}"><td>${p}</td><td>${rnd(val)}</td><td>${rnd(gap)}</td></tr>`;
+            const per = c !== 0 ? (gap / c * 100).toFixed(2) + '%' : '0%';
+            html += `<tr class="bg-light-green"><td>-${p}</td><td>${rnd(val)}</td><td>${rnd(gap)}</td><td>${per}</td></tr>`;
         });
         html += `</table></div></div>`;
 

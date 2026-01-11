@@ -12,75 +12,33 @@
             --primary-blue: #0056b3;
             --text-main: #000000;
             --red-highlight: #d32f2f;
-            --light-red-bg: #ffebee;
-            --light-green-bg: #e8f5e9;
+            --green-highlight: #2e7d32;
         }
 
         * { box-sizing: border-box; }
-
-        body { 
-            font-family: -apple-system, "SF Pro Text", "Helvetica Neue", sans-serif; 
-            background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; 
-        }
-
-        .header { 
-            background: #ffffff; padding: 15px; text-align: center; 
-            font-size: 1.25rem; font-weight: bold; border-bottom: 2px solid var(--border-color);
-        }
-
-        .tabs { 
-            display: flex; overflow-x: auto; background: var(--tab-bg); 
-            position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--border-color);
-        }
-        .tab { 
-            flex: 1; min-width: 90px; padding: 15px 5px; text-align: center; 
-            color: #666; cursor: pointer; border-bottom: 4px solid transparent; 
-            font-size: 0.95rem; font-weight: bold; white-space: nowrap;
-        }
+        body { font-family: -apple-system, sans-serif; background-color: var(--bg-color); margin: 0; padding: 0; }
+        .header { background: #fff; padding: 15px; text-align: center; font-size: 1.25rem; font-weight: bold; border-bottom: 2px solid var(--border-color); }
+        .tabs { display: flex; overflow-x: auto; background: var(--tab-bg); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--border-color); }
+        .tab { flex: 1; min-width: 90px; padding: 15px 5px; text-align: center; color: #666; cursor: pointer; border-bottom: 4px solid transparent; font-size: 0.95rem; font-weight: bold; }
         .tab.active { color: var(--primary-blue); border-bottom-color: var(--primary-blue); background: #fff; }
-
         .container { padding: 15px; max-width: 600px; margin: auto; }
         .panel { display: none; }
         .panel.active { display: block; }
-
-        .input-card { 
-            background: #fff; border: 1px solid var(--border-color); 
-            border-radius: 12px; padding: 20px; margin-bottom: 20px; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .field { display: flex; flex-direction: column; }
-        
-        label { font-size: 0.9rem; color: #000; margin-bottom: 6px; font-weight: bold; }
-        
-        input { 
-            width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; 
-            font-size: 1.1rem; outline: none; transition: border 0.2s;
-        }
-        input:focus { border-color: var(--primary-blue); }
-
-        button { 
-            width: 100%; padding: 15px; background: var(--primary-blue); color: white; 
-            border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; 
-            cursor: pointer; margin-top: 15px;
-        }
-
-        .result-wrapper { display: flex; flex-direction: column; gap: 25px; margin-top: 15px; }
-        table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--border-color); }
-        th, td { border: 1px solid var(--border-color); padding: 10px 2px; text-align: center; font-size: 0.9rem; }
-        th { background-color: #f1f3f5; font-weight: bold; }
-
-        .text-red { color: var(--red-highlight) !important; font-weight: bold; }
-        .bg-light-red { background-color: var(--light-red-bg) !important; }
-        .bg-light-green { background-color: var(--light-green-bg) !important; }
-        
-        /* 修改這裡：將字體調小至 1.2rem (稍大的粗體) */
-        .highlight-params { 
-            text-align: center; font-size: 1.2rem; font-weight: bold; 
-            color: #000; margin-bottom: 15px; padding: 12px; 
-            background: #fdfdfd; border: 1px dashed #ccc; border-radius: 10px;
-        }
-        .table-title { font-weight: bold; font-size: 1rem; margin-bottom: 8px; padding-left: 10px; border-left: 5px solid var(--primary-blue); }
+        .input-card { background: #fff; border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .field { display: flex; flex-direction: column; margin-bottom: 10px; }
+        label { font-size: 0.85rem; font-weight: bold; margin-bottom: 4px; }
+        input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; }
+        button { width: 100%; padding: 12px; background: var(--primary-blue); color: white; border: none; border-radius: 6px; font-size: 1rem; font-weight: bold; cursor: pointer; margin-top: 5px; }
+        .btn-n { background: #6c757d; margin-top: 10px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.9rem; }
+        th, td { border: 1px solid var(--border-color); padding: 8px 4px; text-align: center; }
+        th { background: #f1f3f5; }
+        .highlight-params { text-align: center; font-weight: bold; padding: 10px; background: #f8f9fa; border-radius: 8px; margin: 10px 0; border: 1px dashed #bbb; }
+        .match-box { background: #fff9c4; padding: 10px; border-radius: 8px; border: 1px solid #fbc02d; margin-bottom: 10px; text-align: center; font-weight: bold; }
+        .text-red { color: var(--red-highlight); font-weight: bold; }
+        .text-green { color: var(--green-highlight); font-weight: bold; }
+        .table-title { font-weight: bold; margin: 15px 0 5px 0; border-left: 4px solid var(--primary-blue); padding-left: 8px; }
     </style>
 </head>
 <body>
@@ -90,8 +48,8 @@
 <div class="tabs">
     <div class="tab active" onclick="switchTab(0)">期CDP</div>
     <div class="tab" onclick="switchTab(1)">現CDP</div>
-    <div class="tab" onclick="switchTab(2)">多回檔</div>
-    <div class="tab" onclick="switchTab(3)">空反彈</div>
+    <div class="tab" onclick="switchTab(2)">多回檔上N</div>
+    <div class="tab" onclick="switchTab(3)">空反彈下N</div>
     <div class="tab" onclick="switchTab(4)">黃金撐壓</div>
 </div>
 
@@ -104,7 +62,7 @@
                 <div class="field"><label>最低 (L)</label><input type="number" id="l0"></div>
                 <div class="field"><label>收盤 (C)</label><input type="number" id="c0"></div>
             </div>
-            <button onclick="calcCDP(0)">計算期CDP數據</button>
+            <button onclick="calcCDP(0)">計算期CDP</button>
         </div>
         <div id="res0"></div>
     </div>
@@ -117,7 +75,7 @@
                 <div class="field"><label>最低 (L)</label><input type="number" id="l1"></div>
                 <div class="field"><label>收盤 (C)</label><input type="number" id="c1"></div>
             </div>
-            <button onclick="calcCDP(1)">計算現CDP數據</button>
+            <button onclick="calcCDP(1)">計算現CDP</button>
         </div>
         <div id="res1"></div>
     </div>
@@ -128,9 +86,14 @@
                 <div class="field"><label>最高 (H)</label><input type="number" id="h2"></div>
                 <div class="field"><label>最低 (L)</label><input type="number" id="l2"></div>
             </div>
-            <button onclick="calcRetrace()">計算多回檔數據</button>
+            <button onclick="calcBaseRetrace()">1. 計算基礎回檔</button>
+            <div id="c_input2" style="display:none; margin-top:15px; border-top:1px solid #eee; pt:10px;">
+                <div class="field"><label>輸入實際回檔價位 (C)</label><input type="number" id="c2"></div>
+                <button class="btn-n" onclick="calcNTargetUp()">2. 計算差距最小及N預測</button>
+            </div>
         </div>
-        <div id="res2"></div>
+        <div id="res2_base"></div>
+        <div id="res2_n"></div>
     </div>
 
     <div id="panel3" class="panel">
@@ -139,9 +102,14 @@
                 <div class="field"><label>最高 (H)</label><input type="number" id="h3"></div>
                 <div class="field"><label>最低 (L)</label><input type="number" id="l3"></div>
             </div>
-            <button onclick="calcRebound()">計算空反彈數據</button>
+            <button onclick="calcBaseRebound()">1. 計算基礎反彈</button>
+            <div id="c_input3" style="display:none; margin-top:15px; border-top:1px solid #eee; pt:10px;">
+                <div class="field"><label>輸入實際反彈價位 (C)</label><input type="number" id="c3"></div>
+                <button class="btn-n" onclick="calcNTargetDown()">2. 計算差距最小及N預測</button>
+            </div>
         </div>
-        <div id="res3"></div>
+        <div id="res3_base"></div>
+        <div id="res3_n"></div>
     </div>
 
     <div id="panel4" class="panel">
@@ -151,7 +119,7 @@
                 <div class="field"><label>最低 (L)</label><input type="number" id="l4"></div>
                 <div class="field" style="grid-column: span 2;"><label>收盤 (C)</label><input type="number" id="c4"></div>
             </div>
-            <button onclick="calcGolden()">計算黃金撐壓數據</button>
+            <button onclick="calcGolden()">計算黃金撐壓</button>
         </div>
         <div id="res4"></div>
     </div>
@@ -164,91 +132,107 @@
     }
 
     const rnd = (v) => Math.round(v);
+    const nRatios = [0.382, 0.5, 0.618, 0.764, 0.809, 1, 1.191, 1.382, 1.5, 1.618, 1.764, 1.809, 2, 2.191, 2.382, 2.5, 2.618, 2.764, 2.809, 3, 3.236, 4.236, 5.236, 6.854];
 
+    // CDP 計算
     function calcCDP(idx) {
         const o = parseFloat(document.getElementById('o'+idx).value) || 0;
         const h = parseFloat(document.getElementById('h'+idx).value) || 0;
         const l = parseFloat(document.getElementById('l'+idx).value) || 0;
         const c = parseFloat(document.getElementById('c'+idx).value) || 0;
-        const rg = h - l, cdp = (2*c + h + l)/4, mHalf = (h+l)*0.5;
-
-        const rows = [
-            {n:"AH", v:cdp+rg}, {n:"NH", v:2*cdp-l}, {n:"CDP", v:cdp},
-            {n:"NL", v:2*cdp-h}, {n:"AL", v:cdp-rg}, {n:"1/2M", v:mHalf, isRed:true}
-        ];
-
-        let html = `<table><tr><th>指標</th><th>數值</th><th>C差距</th></tr>`;
-        rows.forEach(r => {
-            let cls = r.isRed ? 'class="text-red"' : '';
-            html += `<tr><td ${cls}>${r.n}</td><td ${cls}>${rnd(r.v)}</td><td>${rnd(r.v-c)}</td></tr>`;
-        });
-        html += `<tr><td>區間</td><td>${rnd(rg)}</td><td>-</td></tr>`;
-        html += `<tr><td>多空</td><td>${rnd((h+l+c)/3)}</td><td>-</td></tr>`;
-        html += `<tr><td>M值</td><td>${rnd(Math.sqrt(o*c))}</td><td>-</td></tr></table>`;
-        document.getElementById('res'+idx).innerHTML = html;
+        const rg = h-l, cdp = (2*c+h+l)/4;
+        let html = `<table><tr><th>指標</th><th>數值</th><th>差距</th></tr>`;
+        const rows = [{n:"AH", v:cdp+rg},{n:"NH",v:2*cdp-l},{n:"CDP",v:cdp},{n:"NL",v:2*cdp-h},{n:"AL",v:cdp-rg}];
+        rows.forEach(r => html += `<tr><td>${r.n}</td><td>${rnd(r.v)}</td><td>${rnd(r.v-c)}</td></tr>`);
+        document.getElementById('res'+idx).innerHTML = html + `</table>`;
     }
 
-    function calcRetrace() {
+    // --- 多回檔上N 邏輯 ---
+    function calcBaseRetrace() {
         const h = parseFloat(document.getElementById('h2').value) || 0;
         const l = parseFloat(document.getElementById('l2').value) || 0;
         const rg = h - l;
-        const ratios = [0.236, 0.25, 0.382, 0.5, 0.618, 0.75, 0.764];
-        const reds = [0.382, 0.5, 0.618, 0.764];
-        let html = `<div class="highlight-params">回檔 (L-H) = ${rnd(l-h)}</div><table><tr><th>比例</th><th>回檔價位</th></tr>`;
-        ratios.forEach(r => {
-            let cls = reds.includes(r) ? 'class="text-red"' : '';
-            html += `<tr><td ${cls}>${r}</td><td ${cls}>${rnd(h - rg*r)}</td></tr>`;
+        document.getElementById('res2_n').innerHTML = ""; // 清空舊結果
+        let html = `<div class="highlight-params">回檔 (L-H) = ${rnd(l-h)}</div><table><tr><th>比例</th><th>回檔價位參考</th></tr>`;
+        [0.236, 0.25, 0.382, 0.5, 0.618, 0.75, 0.764].forEach(r => {
+            html += `<tr><td>${r}</td><td>${rnd(h - rg*r)}</td></tr>`;
         });
-        document.getElementById('res2').innerHTML = html + `</table>`;
+        document.getElementById('res2_base').innerHTML = html + `</table>`;
+        document.getElementById('c_input2').style.display = "block";
     }
 
-    function calcRebound() {
+    function calcNTargetUp() {
+        const h = parseFloat(document.getElementById('h2').value) || 0;
+        const l = parseFloat(document.getElementById('l2').value) || 0;
+        const c = parseFloat(document.getElementById('c2').value) || 0;
+        const rg = h - l;
+        
+        // 找差距最小
+        let minDiff = Infinity, bestR = 0, bestV = 0;
+        [0.236, 0.25, 0.382, 0.5, 0.618, 0.75, 0.764].forEach(r => {
+            let v = h - rg*r;
+            let diff = Math.abs(v - c);
+            if(diff < minDiff) { minDiff = diff; bestR = r; bestV = v; }
+        });
+
+        let html = `<div class="match-box">差距最小比例：${bestR}<br>對應價位：${rnd(bestV)} (差距:${rnd(minDiff)})</div>`;
+        html += `<div class="table-title">預測上漲 N 目標 (C + (H-L)*比例)</div><table><tr><th>比例</th><th>預測價位</th></tr>`;
+        nRatios.forEach(r => {
+            const val = c + rg * r;
+            html += `<tr><td>${r==1?'N(1:1)':r}</td><td class="text-red">${rnd(val)}</td></tr>`;
+        });
+        document.getElementById('res2_n').innerHTML = html + `</table>`;
+    }
+
+    // --- 空反彈下N 邏輯 ---
+    function calcBaseRebound() {
         const h = parseFloat(document.getElementById('h3').value) || 0;
         const l = parseFloat(document.getElementById('l3').value) || 0;
         const rg = h - l;
-        const ratios = [0.236, 0.25, 0.382, 0.5, 0.618, 0.75, 0.764];
-        const reds = [0.382, 0.5, 0.618, 0.764];
-        let html = `<div class="highlight-params">反彈 (H-L) = ${rnd(h-l)}</div><table><tr><th>比例</th><th>反彈價位</th></tr>`;
-        ratios.forEach(r => {
-            let cls = reds.includes(r) ? 'class="text-red"' : '';
-            html += `<tr><td ${cls}>${r}</td><td ${cls}>${rnd(l + rg*r)}</td></tr>`;
+        document.getElementById('res3_n').innerHTML = ""; 
+        let html = `<div class="highlight-params">反彈 (H-L) = ${rnd(h-l)}</div><table><tr><th>比例</th><th>反彈價位參考</th></tr>`;
+        [0.236, 0.25, 0.382, 0.5, 0.618, 0.75, 0.764].forEach(r => {
+            html += `<tr><td>${r}</td><td>${rnd(l + rg*r)}</td></tr>`;
         });
-        document.getElementById('res3').innerHTML = html + `</table>`;
+        document.getElementById('res3_base').innerHTML = html + `</table>`;
+        document.getElementById('c_input3').style.display = "block";
     }
 
+    function calcNTargetDown() {
+        const h = parseFloat(document.getElementById('h3').value) || 0;
+        const l = parseFloat(document.getElementById('l3').value) || 0;
+        const c = parseFloat(document.getElementById('c3').value) || 0;
+        const rg = h - l;
+
+        let minDiff = Infinity, bestR = 0, bestV = 0;
+        [0.236, 0.25, 0.382, 0.5, 0.618, 0.75, 0.764].forEach(r => {
+            let v = l + rg*r;
+            let diff = Math.abs(v - c);
+            if(diff < minDiff) { minDiff = diff; bestR = r; bestV = v; }
+        });
+
+        let html = `<div class="match-box">差距最小比例：${bestR}<br>對應價位：${rnd(bestV)} (差距:${rnd(minDiff)})</div>`;
+        html += `<div class="table-title">預測下跌 N 目標 (C - (H-L)*比例)</div><table><tr><th>比例</th><th>預測價位</th></tr>`;
+        nRatios.forEach(r => {
+            const val = c - rg * r;
+            html += `<tr><td>${r==1?'N(1:1)':r}</td><td class="text-green">${rnd(val)}</td></tr>`;
+        });
+        document.getElementById('res3_n').innerHTML = html + `</table>`;
+    }
+
+    // 黃金撐壓
     function calcGolden() {
         const h = parseFloat(document.getElementById('h4').value) || 0;
         const l = parseFloat(document.getElementById('l4').value) || 0;
         const c = parseFloat(document.getElementById('c4').value) || 0;
-        const x = h - l;
-        const m = (h + l) / 2;
-
-        const params = [0.13, 0.21, 0.34, 0.55, 0.89, 1.13, 1.21, 1.34, 1.55, 1.89, 2.13, 2.21, 2.34, 2.55, 2.89];
-
-        let html = `<div class="highlight-params">波動 X = ${rnd(x)} &nbsp; | &nbsp; 中價 M = ${rnd(m)}</div>`;
-        html += `<div class="result-wrapper">`;
-
-        html += `<div><div class="table-title">上漲佈局 (M + 參數*X)</div>`;
-        html += `<table><tr><th>參數</th><th>數值</th><th>C差距</th><th>C差距%</th></tr>`;
-        params.forEach(p => {
-            const val = m + p * x;
-            const gap = val - c;
-            const per = c !== 0 ? (gap / c * 100).toFixed(2) + '%' : '0%';
-            html += `<tr class="bg-light-red"><td>${p}</td><td>${rnd(val)}</td><td>${rnd(gap)}</td><td>${per}</td></tr>`;
-        });
-        html += `</table></div>`;
-
-        html += `<div><div class="table-title">下跌佈局 (M - 參數*X)</div>`;
-        html += `<table><tr><th>參數</th><th>數值</th><th>C差距</th><th>C差距%</th></tr>`;
-        params.forEach(p => {
-            const val = m - p * x;
-            const gap = val - c;
-            const per = c !== 0 ? (gap / c * 100).toFixed(2) + '%' : '0%';
-            html += `<tr class="bg-light-green"><td>-${p}</td><td>${rnd(val)}</td><td>${rnd(gap)}</td><td>${per}</td></tr>`;
-        });
-        html += `</table></div></div>`;
-
-        document.getElementById('res4').innerHTML = html;
+        const x = h - l, m = (h + l) / 2;
+        const ps = [0.13, 0.21, 0.34, 0.55, 0.89, 1.13, 1.21, 1.34, 1.55, 1.89, 2.13, 2.21, 2.34, 2.55, 2.89];
+        let html = `<div class="highlight-params">X:${rnd(x)} | M:${rnd(m)}</div><div class="grid">`;
+        let t1 = `<div><div class="table-title">上漲</div><table>`;
+        ps.forEach(p => t1 += `<tr><td>${p}</td><td class="text-red">${rnd(m+p*x)}</td></tr>`);
+        let t2 = `<div><div class="table-title">下跌</div><table>`;
+        ps.forEach(p => t2 += `<tr><td>${p}</td><td class="text-green">${rnd(m-p*x)}</td></tr>`);
+        document.getElementById('res4').innerHTML = html + t1 + "</table></div>" + t2 + "</table></div></div>";
     }
 </script>
 </body>
